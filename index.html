@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday My Friend!</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    color: white;
+    background: linear-gradient(135deg, #19002e, #7b2ff7, #f107a3);
+    overflow-x: hidden;
+}
+
+.container {
+    width: 92%;
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 28px 18px;
+    border-radius: 25px;
+    background: rgba(255,255,255,0.13);
+    border: 1px solid rgba(255,255,255,0.25);
+    box-shadow: 0 10px 35px rgba(0,0,0,0.3);
+}
+
+h1 {
+    font-size: clamp(28px, 8vw, 42px);
+    color: #ffe66d;
+    animation: glow 1.5s infinite alternate;
+}
+
+.subtitle {
+    margin: 12px 0 20px;
+    font-size: 17px;
+}
+
+.cake {
+    font-size: 100px;
+    margin: 15px;
+    animation: bounce 1.5s infinite;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 13px;
+    margin: 7px 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+}
+
+textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 30px;
+    background: #ffe66d;
+    color: #4a126b;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+button:active {
+    transform: scale(0.96);
+}
+
+#wish {
+    display: none;
+    margin-top: 22px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+    animation: appear 1s ease;
+}
+
+#wish h2 {
+    color: #ffe66d;
+    margin-bottom: 10px;
+}
+
+.balloon {
+    position: fixed;
+    bottom: -100px;
+    font-size: 38px;
+    pointer-events: none;
+    z-index: -1;
+    animation: floatUp linear infinite;
+}
+
+.confetti {
+    position: fixed;
+    top: -15px;
+    width: 9px;
+    height: 14px;
+    pointer-events: none;
+    z-index: 10;
+    animation: fall 3s linear forwards;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 5px #ff4fd8; }
+    to { text-shadow: 0 0 25px #ffe66d; }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-15px) rotate(3deg); }
+}
+
+@keyframes floatUp {
+    from { transform: translateY(0) rotate(0); }
+    to { transform: translateY(-120vh) rotate(25deg); }
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 400px) {
+    .container { padding: 22px 14px; }
+    .cake { font-size: 80px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>🎉 Happy Birthday! 🎉</h1>
+    <p class="subtitle">A special surprise for my best friend 💖</p>
+
+    <div class="cake">🎂</div>
+
+    <input id="friendName" type="text"
+           placeholder="Enter your friend's name">
+
+    <input id="friendAge" type="number" min="1" max="120"
+           placeholder="Enter age (optional)">
+
+    <textarea id="message"
+        placeholder="Write your personal birthday message..."></textarea>
+
+    <button onclick="celebrate()">🎁 Open Your Surprise</button>
+
+    <div id="wish">
+        <h2 id="birthdayTitle"></h2>
+        <p id="birthdayMessage"></p>
+        <h2>🎈 🎂 🎁 💖 🎉</h2>
+        <p>May your day be filled with love, laughter and happiness!</p>
+        <p>✨ Stay happy and keep smiling! ✨</p>
+        <button onclick="celebrate()">🎊 Celebrate Again!</button>
+    </div>
+</div>
+
+<script>
+// Floating balloons
+const balloons = ["🎈", "💖", "🎈", "✨"];
+
+balloons.forEach((emoji, i) => {
+    const balloon = document.createElement("div");
+    balloon.className = "balloon";
+    balloon.textContent = emoji;
+    balloon.style.left = (10 + i * 23) + "%";
+    balloon.style.animationDuration = (7 + i * 2) + "s";
+    balloon.style.animationDelay = (i * 1.5) + "s";
+    document.body.appendChild(balloon);
+});
+
+function celebrate() {
+    const name =
+        document.getElementById("friendName").value.trim() || "My Best Friend";
+
+    const age = document.getElementById("friendAge").value;
+    const message =
+        document.getElementById("message").value.trim() ||
+        "You are an amazing friend! Thank you for making life more beautiful. " +
+        "May all your dreams come true. Keep smiling always! ❤️";
+
+    document.getElementById("birthdayTitle").textContent =
+        "Happy Birthday, " + name + "! 🥳";
+
+    document.getElementById("birthdayMessage").textContent =
+        (age ? "Happy " + age + "th Birthday! 🎂 " : "") + message;
+
+    document.getElementById("wish").style.display = "block";
+
+    // Confetti animation
+    for (let i = 0; i < 120; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti";
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.backgroundColor =
+            ["#ffe66d", "#ff4fd8", "#00f5d4", "#ffffff",
+             "#ff7043", "#8aff80"][Math.floor(Math.random() * 6)];
+
+        piece.style.animationDuration =
+            (2 + Math.random() * 3) + "s";
+
+        piece.style.animationDelay = Math.random() * 1.5 + "s";
+
+        document.body.appendChild(piece);
+
+        setTimeout(() => piece.remove(), 6000);
+    }
+}
+</script>
+
+</body>
+</html>
